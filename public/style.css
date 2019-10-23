@@ -1,0 +1,10 @@
+.form{
+    margin: 15px;
+}
+h1{
+    text-align: center;
+}
+.validate{
+    text-align: center;
+    color: red;
+}
