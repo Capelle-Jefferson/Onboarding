@@ -29,12 +29,17 @@ class Contact
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $mail;
+    private $mail_contact;
 
     /**
      * @ORM\Column(type="text")
      */
     private $message;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DepartmentCompany")
+     */
+    private $departmentCompany;
 
     public function getId(): ?int
     {
@@ -65,14 +70,14 @@ class Contact
         return $this;
     }
 
-    public function getMail(): ?string
+    public function getMailContact(): ?string
     {
-        return $this->mail;
+        return $this->mail_contact;
     }
 
-    public function setMail(string $mail): self
+    public function setMailContact(string $mail_contact): self
     {
-        $this->mail = $mail;
+        $this->mail_contact = $mail_contact;
 
         return $this;
     }
@@ -88,4 +93,17 @@ class Contact
 
         return $this;
     }
+
+    public function getDepartmentCompany(): ?DepartmentCompany
+    {
+        return $this->departmentCompany;
+    }
+
+    public function setDepartmentCompany(?DepartmentCompany $departmentCompany): self
+    {
+        $this->departmentCompany = $departmentCompany;
+
+        return $this;
+    }
+   
 }
