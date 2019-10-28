@@ -4,43 +4,25 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use App\Utils\LibContact;
 use App\Entity\Contact;
-use App\Entity\DepartmentCompany;
+use App\Form\ContactType;
 
 class ContactController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
-    public function index()
-    {
-        return $this->redirectToRoute("contact");
-    }
     
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/", name="contact")
      */
-    public function contact(Request $request, ObjectManager $manager, \Swift_Mailer $mailer)
+    public function contact(Request $request, ObjectManager $manager, LibContact $libContact, \Swift_Mailer $mailer)
     {
+        $retIsSubmitted = false;
         $contact = new Contact();
-        // Create form 
-        $form = $this->createFormBuilder($contact)
-                     ->add('name')
-                     ->add('firstName')
-                     ->add('mail_contact', EmailType::class)
-                     ->add('message')
-                     ->add('departmentCompany', EntityType::class, [
-                         'class' => DepartmentCompany::class,
-                         'placeholder' => false,
-                     ])
-                     ->getForm();
-        
+        $form = $this->createForm(ContactType::class, $contact);
+
         // if form is submited, saves and sends mail
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -49,19 +31,13 @@ class ContactController extends AbstractController
             $manager->flush();
             
             // sends mail
-            $mail = (new \Swift_Message('Page contact'))
-                    ->setFrom($contact->getMailContact())
-                    ->setTo($contact->getDepartmentCompany()->getMail())
-                    ->setBody($contact->getMessage(), 'text/html');
-            $mailer->send($mail);
+            $libContact->sendMailContact($contact, $mailer);
             
-            return $this->render('contact.html.twig', [
-                'formContact' => $form->createView(),
-                'validate' => true,
-            ]);
+            $retIsSubmitted = true;
         }
         return $this->render('contact.html.twig', [
-            'formContact' => $form->createView()
+            'formContact' => $form->createView(),
+            'validate' => $retIsSubmitted
         ]);
     }    
 }

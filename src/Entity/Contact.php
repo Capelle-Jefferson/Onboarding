@@ -29,7 +29,7 @@ class Contact
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $mail_contact;
+    private $mailContact;
 
     /**
      * @ORM\Column(type="text")
@@ -72,12 +72,12 @@ class Contact
 
     public function getMailContact(): ?string
     {
-        return $this->mail_contact;
+        return $this->mailContact;
     }
 
-    public function setMailContact(string $mail_contact): self
+    public function setMailContact(string $mailContact): self
     {
-        $this->mail_contact = $mail_contact;
+        $this->mailContact = $mailContact;
 
         return $this;
     }
