@@ -1,30 +1,55 @@
 ## Capelle Jefferson
 
-La page contact a été créée les champs: name, first name, mail, message vous serons demandés
-mais vous devez également sélectionner un département de l'entreprise du destinataire du mail.
-
-Chaque envoi sera enregistré dans la base de données.
-
-Deux tables y sont présentes :
-	- DepartmentCompany : id, name, mail
-	- Contact : id, name, first_name, mail_contact, message, departement_company_id
+un nouveau controlleur à été créé: ContactApiController, 
 
 Pour générer la base de données, utiliser les commandes suivantes:	
 $ php bin\console make:migration
-$ php bin/console doctrine:migrations:migrate
+$ php bin\console doctrine:migrations:migrate
 
 Une fixture de DepartmentCompany a été créée, utiliser la commande suivante:
 $ php bin\console doctrine:fixtures:load
 
 Utiliser la commande suivante pour démarrer le serveur:
-$ php bin\console  server:run
-
-Vous pouvez maintenant accéder au site avec ce lien:
-http://127.0.0.1:8000
+$ php bin\console server:run
 
 
-L'envoi de mail est fonctionnel, toutefois j'ai désactivé cet envoi, pour le réactiver il suffit, 
-dans le fichier .env, de modifier la constante MAILER_URL.
+#GET
+- Récupérer tous les départements:
+/departements
+
+- Récupérer un département en fonction de son id
+/departement/{id}
+
+- récupérer un contact en fonction de son id
+/contact/{id}
+
+
+#POST
+- enregistrer un contact et envoyer le mail via 
+/newContact
+
+par exemple, nous avons le département suivant:
+{
+	"id": 0,
+	"name": "direction",
+	"mail": "direction_exercice@gmail.com"
+}
+
+l'envoi de ces ressources, via l'url '/newContact', en post seront enregistrées dans la base de données, 
+puis le mail sera envoyé au département.
+{
+	
+	"name": "Capelle",
+	
+	"firstName": "Jefferson"
+	"mailContact": "jefferson.capelle@sfr.fr",
+	
+	"message": "Ceci est un message",
+	
+	"departmentCompany": 0
+}
+
+Si l'id du département n'est pas existant, le status 404 Not Found apparait.
 
 
 Je vous remercie.
