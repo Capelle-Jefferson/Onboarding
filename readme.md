@@ -41,7 +41,7 @@ puis le mail sera envoyé au département.
 	
 	"name": "Capelle",
 	
-	"firstName": "Jefferson"
+	"firstName": "Jefferson",
 	"mailContact": "jefferson.capelle@sfr.fr",
 	
 	"message": "Ceci est un message",
