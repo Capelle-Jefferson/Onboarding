@@ -19,17 +19,6 @@ class ContactApiController extends FOSRestController
 {
     /**
      * @Rest\GET(
-     *      path = "/department/{id}",
-     *      name = "getDepartment",
-     *      requirements = {"id"="\d+"})
-     * @Rest\View()
-     */
-    public function getDepartmentId(DepartmentCompany $department){
-        return $department;
-    }
-    
-    /**
-     * @Rest\GET(
      *      path = "/departments",
      *      name = "getDepartments")
      * @Rest\View()
@@ -39,17 +28,6 @@ class ContactApiController extends FOSRestController
                 ->getRepository(DepartmentCompany::class)
                 ->findAll();
         return $departments;
-    }
-    
-    /**
-     * @Rest\GET(
-     *      path = "/contact/{id}",
-     *      name = "getContact",
-     *      requirements = {"id"="\d+"})
-     * @Rest\View()
-     */
-    public function getContactId(Contact $contact){
-        return $contact;
     }
     
     /**
@@ -74,9 +52,6 @@ class ContactApiController extends FOSRestController
 
         $libContact->sendMailContact($contact, $mailer);
         
-        return $this->view($contact, Response::HTTP_CREATED, [
-                'Location' => $this->generateUrl('getContact', 
-                        ['id' => $contact->getId(), UrlGeneratorInterface::ABSOLUTE_URL])
-            ]);
+        return $contact;
     }
 }

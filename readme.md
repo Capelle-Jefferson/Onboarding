@@ -17,13 +17,6 @@ $ php bin\console server:run
 - Récupérer tous les départements:
 /departements
 
-- Récupérer un département en fonction de son id
-/departement/{id}
-
-- récupérer un contact en fonction de son id
-/contact/{id}
-
-
 #POST
 - enregistrer un contact et envoyer le mail via 
 /newContact
